@@ -19,6 +19,7 @@ public class MyLinkedList<T>{
 		}
 		return current;
 	}
+	
 
 
 
