@@ -32,11 +32,11 @@ public class recursion{
     }
     public int fibItr(int n){
         /*put in your code here...*/
-        return fibItr(n,2,1,1);
+        return fibItr(n,0,1,0);
     }
     public int fibItr(int n,int place,int fib, int fibprev){
-        if(place==n){
-            return fib;
+        if(place>=n){
+            return fibprev;
         }else{
             return fibItr(n,place+1,fib+fibprev,fib);
         }
