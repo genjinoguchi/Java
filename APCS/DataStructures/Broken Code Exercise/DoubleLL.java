@@ -42,4 +42,32 @@ public class DoubleLL<E>{
 		if(current.getPrev() != null)
 			current = current.getPrev();
 	}
+	public String toString(){
+		if (current==null) return "";
+		while(current.getPrev() != null)
+			current = current.getPrev();
+		Node<E> tmp = current;
+		String s = "";
+		while(tmp!=null){
+			s = s+tmp.getData()+" ";
+			tmp = tmp.getNext();
+		}
+		return s;
+	}
+	public static void main(String[] args) {
+		DoubleLL<String>L = new DoubleLL<String>();
+		System.out.println(L);
+		L.insert("hello");
+		System.out.println(L);
+		L.insert("world");
+		System.out.println(L);
+		L.insert("three");
+		System.out.println(L);
+		//First test up to here
+		System.out.println(L.getCurrent());
+		L.forward();
+		System.out.println(L.getCurrent());
+		L.insert("inserted");
+		System.out.println(L);
+	}
 }
