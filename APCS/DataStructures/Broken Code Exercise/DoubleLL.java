@@ -11,23 +11,26 @@ public class DoubleLL<E>{
 		public void setData(E d){ data = d;}
 		public E getData(){ return data; }
 		public void setNext(Node<E>n){ next = n;}
+		public Node<E> getNext(){ return next;}
 		public void setPrev(Node<E> p){ prev = p;}
+		public Node<E> getPrev(){ return prev; }
 
 	}
 
 	private Node<E> current;
 
-	public void insert(E d) { /*Replaces the node before current and replaces it with the new node.
-								1 error- if current is the first node, then you're going to get some weird stuf.
-	
-							*/
+	public void insert(E d) {
 		Node<E> n = new Node<E>(d);
 		if (current==null) {
-			current = n; //starts it off?
+			current = n;
 		}else{
 			n.next = current;
+			if(current.prev!=null){
+				Node<E>tmp=current.prev;
+				n.prev = tmp;
+				tmp.next = n;
+			}
 			current.prev = n;
-			current = n;
 		}
 	}
 
@@ -44,11 +47,14 @@ public class DoubleLL<E>{
 	}
 	public String toString(){
 		if (current==null) return "";
+
 		while(current.getPrev() != null)
-			current = current.getPrev();
+			back();
+
 		Node<E> tmp = current;
 		String s = "";
-		while(tmp!=null){
+		s = tmp.getData()+" ";
+		while(tmp.getNext()!=null && tmp.getNext()!=current){
 			s = s+tmp.getData()+" ";
 			tmp = tmp.getNext();
 		}
@@ -69,5 +75,7 @@ public class DoubleLL<E>{
 		System.out.println(L.getCurrent());
 		L.insert("inserted");
 		System.out.println(L);
+
+		
 	}
 }
