@@ -10,27 +10,42 @@ public class Calculator{
 		}
 	}
 
-	public void calculate(String str){
+	public Double push(Double d){
+		return s.push(d);
+	}
+	public Double peek(){
+		return s.peek();
+	}
+	public Double modifiedPop(){
+		try{
+			return s.pop();
+		}catch(EmptyStackException e){
+			return 0.0;
+		}
+	}
+
+	public String calculate(String str){
+		String returnstuff = "";
 		try{
 			Double tmp = 0.0;
 			switch(str){
 				case "+":
 					s.push(modifiedPop()+modifiedPop());
-					printOutput();
+					returnstuff = returnOutput();
 					break;
 				case "-":
 					tmp = modifiedPop();
 					s.push(modifiedPop()-tmp);
-					printOutput();
+					returnstuff = returnOutput();
 					break;
 				case "/":
 					tmp = modifiedPop();
 					s.push(modifiedPop()/tmp);
-					printOutput();
+					returnstuff = returnOutput();
 					break;
 				case "*":
 					s.push(modifiedPop()*modifiedPop());
-					printOutput();
+					returnstuff = returnOutput();
 					break;
 				default:
 					s.push(Double.parseDouble(str));
@@ -39,22 +54,15 @@ public class Calculator{
 		}catch(ArithmeticException e){
 			System.out.println("Awkward invalid operation.");
 		}catch(NumberFormatException e){
-			System.out.println("Not expected symbol.");
+			
 		}catch(Exception e){
 			System.out.println("This should never happen.");
 		}
+		return returnstuff;
 	}
 
-	public void printOutput(){
-		System.out.println("\t\t\t"+s.peek());
-	}
-
-	public Double modifiedPop(){
-		try{
-			return s.pop();
-		}catch(EmptyStackException e){
-			return 0.0;
-		}
+	public String returnOutput(){
+		return "\t\t\t"+s.peek();
 	}
 
 	public static void main(String[] args) {

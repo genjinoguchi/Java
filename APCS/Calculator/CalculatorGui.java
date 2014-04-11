@@ -24,14 +24,17 @@ public class CalculatorGui implements ActionListener{
 		new JButton("7"),
 		new JButton("8"),
 		new JButton("9"),
+		new JButton("."),
 		new JButton("Enter"),
 					};
+	private Calculator c;
 
 	public void gui(){
 		frame.setSize(sizex, sizey);
 		frame.setLocation(50,50);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		c = new Calculator();
 
 		background = frame.getContentPane();
 		background.setLayout(new GridLayout(0,4));
@@ -46,7 +49,21 @@ public class CalculatorGui implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		for(int x=0;x<operations.length;x++){
 			if(e.getSource()==operations[x]){
-				
+				String s = operations[x].getText();
+				if( s=="Enter" ||
+					s=="+" ||
+					s=="-" ||
+					s=="/" ||
+					s=="*"){
+					c.calculate(input);
+					c.calculate(s);
+					display.setText(c.peek().toString());
+					input = "";
+
+				}else{
+					input += s;
+					display.setText(input);
+				}
 			}
 		}
 	}
