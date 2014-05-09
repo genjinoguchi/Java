@@ -4,19 +4,10 @@ public class Tree{
 	private Node root;
 
 	public static void main(String[] args) {
-
+		
 	}
 
 	public Tree(){
-		insert(50);
-		insert(60);
-		insert(40);
-		insert(35);
-		insert(45);
-		insert(55);
-		insert(65);
-		insert(0);
-		insert(100);
 
 	}
 
@@ -51,12 +42,12 @@ public class Tree{
 	public boolean remove(int value){
 		if(root.getData()==value){
 			if(root.getRight()!=null){
-				Node temp = getAndRemoveMinChild(root.getRight());
+				Node temp = getAndRemoveMinChild(root);
 				temp.setRight(root.getRight());
 				temp.setLeft(root.getLeft());
 				root = temp;
 			}else if(root.getLeft()!=null){
-				Node temp = getAndRemoveMaxChild(root.getLeft());
+				Node temp = getAndRemoveMaxChild(root);
 				temp.setRight(root.getRight());
 				temp.setLeft(root.getLeft());
 				root = temp;
