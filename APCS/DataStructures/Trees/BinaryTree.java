@@ -1,29 +1,9 @@
 import java.util.ArrayList;
 
-public class BinaryTree{
+public class Tree{
 	private Node root;
 
 	public static void main(String[] args) {
-		BinaryTree fred = new BinaryTree();
-	}
-
-	public BinaryTree(){
-		insert(50);
-		insert(75);
-		insert(25);
-		insert(36);
-		insert(14);
-		insert(85);
-		insert(65);
-		insert(100);
-
-		System.out.println(this);
-
-		System.out.println("////////////////////////////////////////////////");
-
-		System.out.println(remove(65));
-
-		System.out.println(this);
 
 	}
 
@@ -42,7 +22,7 @@ public class BinaryTree{
 						return;
 					}else{
 						temp = temp.getRight();
-					}
+					} 	
 				}else if(temp.getValue()>value){
 					if(temp.getLeft()==null){
 						temp.setLeft(new Node(value));
@@ -174,7 +154,7 @@ public class BinaryTree{
 			toReturn="";
 		}
 		if(n.getLeft()!=null){
-			toReturn = n.getLeft().toString()+"<"+toReturn;
+			toReturn = n.getLeft().toString()+"<"+toReturn+;
 			left = "\n"+toString(n.getLeft());
 		}
 		if(n.getRight()!=null){

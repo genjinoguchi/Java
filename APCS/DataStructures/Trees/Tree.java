@@ -1,103 +1,223 @@
 import java.util.ArrayList;
 
-//Binary-sorted tree.
-
 public class Tree{
-	public Node root;
+	private Node root;
 
 	public static void main(String[] args) {
-		Tree fred = new Tree();
-		fred.insert(2);
-		fred.insert(5);
-		System.out.println(fred.root);
-	}
-
-	/*
-	public Node find(int x){
 
 	}
-	*/
+
+	public Tree(){
+
+	}
 
 	public void insert(int value){
 		if(root==null){
-			root = new Node(value);
-			return;
-		}
-		Node current = root;
-		while(true){
-			if(current.getData()==value){
-				current.increaseCount();
-				break;
-			}else if(current.getData()>value){
-				if(current==null){
-					current.setNextRight(new Node(value));
-					break;
+			root=new Node(value);
+		}else{
+			Node temp = root;
+			while(true){
+				if(temp.getValue()==value){
+					temp.increaseCounter();
+					return;
+				}else if(temp.getValue()<value){
+					if(temp.getRight()==null){
+						temp.setRight(new Node(value));
+						return;
+					}else{
+						temp = temp.getRight();
+					} 	
+				}else if(temp.getValue()>value){
+					if(temp.getLeft()==null){
+						temp.setLeft(new Node(value));
+						return;
+					}else{
+						temp = temp.getLeft();
+					}
 				}
-				current = current.getRight();
-			}else{
-				if(current.getLeft()==null){
-					current.setNextLeft(new Node(value));
-					break;
-				}
-				current = current.getLeft();
 			}
 		}
 	}
 
-	public String toString(Node n){
-		if(n==null){
-			return "";
+	public boolean remove(int value){
+		if(root.getValue()==value){
+			if(root.getRight()!=null){
+				Node temp = getAndRemoveMinChild(root.getRight());
+				temp.setRight(root.getRight());
+				temp.setLeft(root.getLeft());
+				root = temp;
+			}else if(root.getLeft()!=null){
+				Node temp = getAndRemoveMaxChild(root.getLeft());
+				temp.setRight(root.getRight());
+				temp.setLeft(root.getLeft());
+				root = temp;
+			}else{
+				root = null;
+			}
+			return true;
+		}else if(find(value)==null){
+			System.out.println("Massive hur");
+			return false;
 		}
-		String toReturn = n.getLeft().toString()+"<-"+n.toString()+"->"+n.getRight().toString();
-		toReturn+= "\n"+toString(n.getLeft());
-		toReturn+= "\n"+toString(n.getRight());
-		return toReturn;
+		return remove(root, value);
+	}
+
+	public boolean remove(Node n, int value){
+		if(n==null){
+			System.out.println("The hurr");
+			return false;
+		}
+		else if(n.getValue()==value){
+			System.out.println("Hurr genji screwed up");
+			return false;
+		}else if(n.getValue()<value){
+			if(n.getRight().getValue()==value){
+				Node temp = n.getRight();
+				n.setRight(getAndRemoveMinChild(n.getRight()));
+				if(n.getRight()!=null){
+					n.getRight().setRight(temp.getRight());
+					n.getRight().setLeft(temp.getLeft());
+				}
+				return true;
+			}else{
+				return remove(n.getRight(),value);
+			}
+		}else if(n.getValue()>value){
+			if(n.getLeft().getValue()==value){
+				Node temp = n.getLeft();
+				n.setLeft(getAndRemoveMaxChild(n.getLeft()));
+				if(n.getLeft()!=null){	
+					n.getLeft().setRight(temp.getRight());
+					n.getLeft().setLeft(temp.getLeft());
+				}
+				return true;
+			}else{
+				return remove(n.getLeft(),value);
+			}
+
+		}
+		System.out.println("What the hurr");
+		return false;
+	}
+
+	public Node getAndRemoveMaxChild(Node n){ //get and remove. Assuming n has a right child.
+		Node temp = n;
+		if(n.getRight()==null){
+			return null;
+		}
+		while(temp.getRight().getRight()!=null){
+			temp = temp.getRight();
+		} //Now temp should be the parent of the max.
+		Node max = temp.getRight();
+		temp.setRight(null);
+		return max;
+	}
+
+	public Node getAndRemoveMinChild(Node n){ //Assuming n has a left child.
+		Node temp = n;
+		if(n.getLeft()==null){ return null; }
+		while(temp.getLeft().getLeft()!=null){
+			temp=temp.getLeft();
+		} //Temp should now be the parent of the min.
+		Node min = temp.getLeft();
+		temp.setLeft(null);
+		return min;
+	}
+
+	public Node find(int value){
+		Node temp = root;
+		if(root==null){
+			System.out.println("Hurr.");
+		}else{
+			while(temp!=null){
+				if(temp.getValue()==value){
+					break;
+				}else if(temp.getValue()<value){
+					temp = temp.getRight();
+				}else if(temp.getValue()>value){
+					temp = temp.getLeft();
+				}
+			}
+		}
+		return temp;
 	}
 
 	public String toString(){
+		if(root==null){return "Empty tree.";}
+		if(root.getRight()==null && root.getLeft()==null){
+			return root.toString();
+		}
 		return toString(root);
 	}
+	public String toString(Node n){
+		String toReturn = n.toString();
+		String left = "";
+		String right = "";
+		if(n.getLeft()==null && n.getRight()==null){
+			return "";
+		}else{
+			if(n.getLeft()!=null){
+				toReturn = n.getLeft().toString()+"<"+toReturn;
+				left = toString(n.getLeft());
+				if(n.getLeft().getLeft()!=null || n.getLeft().getRight()!=null){
+					left = "\n" + left;
+				}
+			}
+			if(n.getRight()!=null){
+				toReturn=toReturn+">"+n.getRight().toString();
+				right = toString(n.getRight());
+				if(n.getRight().getLeft()!=null || n.getRight().getRight()!=null){
+					right = "\n" + right;
+				}
+			}
+		}
+		return toReturn+left+right;
+	}
+
 
 	private class Node{
-		int data;
-		int count;
-		Node nextLeft, nextRight;
-		public Node(int data){
-			this.data = data;
-			count = 1;
+		private int value;
+		private int counter;
+		private Node rightNode, leftNode;
+		public Node(int value){
+			setValue(value);
+			counter = 1;
+		}
+
+		public void setValue(int value){
+			this.value = value;
+		}
+		public int getValue(){
+			return value;
 		}
 		public int getCount(){
-			return count;
+			return counter;
 		}
-		public void increaseCount(){
-			count++;
+		public void increaseCounter(){
+			counter++;
 		}
-		public int getData(){
-			return data;
-		}
-		public void setData(int data){
-			this.data = data;
-		}
-		public ArrayList<Node> getChildren(){
-			ArrayList<Node> nodes = new ArrayList<Node>();
-			nodes.add(nextLeft);
-			nodes.add(nextRight);
-			return nodes;
-		}
-		public void setNextLeft(Node n){
-			nextLeft = n;
-		}
-		public void setNextRight(Node n){
-			nextRight = n;
+		public void setRight(Node n){
+			rightNode = n;
 		}
 		public Node getRight(){
-			return nextRight;
+			return rightNode;
+		}
+		public void setLeft(Node n){
+			leftNode = n;
 		}
 		public Node getLeft(){
-			return nextLeft;
+			return leftNode;
 		}
 		public String toString(){
-			return "" + getData();
+			return "" + getValue();
 		}
+
+
 	}
+
+
+
+
+
+
 }
