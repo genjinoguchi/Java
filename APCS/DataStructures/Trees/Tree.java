@@ -8,6 +8,15 @@ public class Tree{
 	}
 
 	public Tree(){
+		insert(50);
+		insert(60);
+		insert(40);
+		insert(35);
+		insert(45);
+		insert(55);
+		insert(65);
+		insert(0);
+		insert(100);
 
 	}
 
@@ -17,17 +26,17 @@ public class Tree{
 		}else{
 			Node temp = root;
 			while(true){
-				if(temp.getValue()==value){
+				if(temp.getData()==value){
 					temp.increaseCounter();
 					return;
-				}else if(temp.getValue()<value){
+				}else if(temp.getData()<value){
 					if(temp.getRight()==null){
 						temp.setRight(new Node(value));
 						return;
 					}else{
 						temp = temp.getRight();
 					} 	
-				}else if(temp.getValue()>value){
+				}else if(temp.getData()>value){
 					if(temp.getLeft()==null){
 						temp.setLeft(new Node(value));
 						return;
@@ -40,7 +49,7 @@ public class Tree{
 	}
 
 	public boolean remove(int value){
-		if(root.getValue()==value){
+		if(root.getData()==value){
 			if(root.getRight()!=null){
 				Node temp = getAndRemoveMinChild(root.getRight());
 				temp.setRight(root.getRight());
@@ -67,11 +76,11 @@ public class Tree{
 			System.out.println("The hurr");
 			return false;
 		}
-		else if(n.getValue()==value){
+		else if(n.getData()==value){
 			System.out.println("Hurr genji screwed up");
 			return false;
-		}else if(n.getValue()<value){
-			if(n.getRight().getValue()==value){
+		}else if(n.getData()<value){
+			if(n.getRight().getData()==value){
 				Node temp = n.getRight();
 				n.setRight(getAndRemoveMinChild(n.getRight()));
 				if(n.getRight()!=null){
@@ -82,8 +91,8 @@ public class Tree{
 			}else{
 				return remove(n.getRight(),value);
 			}
-		}else if(n.getValue()>value){
-			if(n.getLeft().getValue()==value){
+		}else if(n.getData()>value){
+			if(n.getLeft().getData()==value){
 				Node temp = n.getLeft();
 				n.setLeft(getAndRemoveMaxChild(n.getLeft()));
 				if(n.getLeft()!=null){	
@@ -130,11 +139,11 @@ public class Tree{
 			System.out.println("Hurr.");
 		}else{
 			while(temp!=null){
-				if(temp.getValue()==value){
+				if(temp.getData()==value){
 					break;
-				}else if(temp.getValue()<value){
+				}else if(temp.getData()<value){
 					temp = temp.getRight();
-				}else if(temp.getValue()>value){
+				}else if(temp.getData()>value){
 					temp = temp.getLeft();
 				}
 			}
@@ -187,7 +196,7 @@ public class Tree{
 		public void setValue(int value){
 			this.value = value;
 		}
-		public int getValue(){
+		public int getData(){
 			return value;
 		}
 		public int getCount(){
@@ -209,7 +218,7 @@ public class Tree{
 			return leftNode;
 		}
 		public String toString(){
-			return "" + getValue();
+			return "" + getData();
 		}
 
 
