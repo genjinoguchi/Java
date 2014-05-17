@@ -11,6 +11,10 @@ public class Tree{
 
 	}
 
+	public String getName(){
+		return "Noguchi,Genji";
+	}
+
 	public void insert(int value){
 		if(root==null){
 			root=new Node(value);
