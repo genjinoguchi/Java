@@ -1,35 +1,60 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Sorry{
 	
 
 
-	public void test1(Random r){
+	public static void test1(Random r, int size){
+		RunningMedian rm = new RunningMedian();
+		for(int x=0;x<size;x++){
+			int randInt = r.nextInt(100);
+			rm.add(randInt);
+			System.out.print("added: "+randInt + ", median is: "+rm.median() + " ");
+			System.out.print(rm);
+		}
+	}
 
+	public static void test2(Random r, int size){
+		RunningMedian rm = new RunningMedian();
+		for(int x=0;x<size;x++){
+			int randInt = r.nextInt(100);
+			rm.add(randInt);
+			System.out.print("added: "+randInt + ", median is: "+rm.median());
+			System.out.print(" "+rm);
+			if(r.nextInt(100)<20 && rm.size()>2){
+				System.out.println();
+				System.out.print("Removed median ");
+				System.out.print(rm.remove());
+				System.out.print(". ");
+				System.out.print(rm);
+				System.out.print(" new median is: ");
+				System.out.print(rm.median());
+			}
+		}
 	}
 
 
 
 	public static void main(String[] args) {
-		/*
-		Test 1 nad test 2.
-		Test 1 uses add and median.
-		Test 2 uses add and remove.
-		limit size to 30, print the steps (the added value and the new median)
-		
-		*/
+		int size = 0;
+		try{
+			size = Integer.parseInt(args[0]);
+			for(int x=1;x<args.length;x++){
+				Random r = new Random(Integer.parseInt(args[x]));
+				System.out.print("Output test1");
+				test1(r,size);
+				System.out.println();
+				System.out.print("Output test2");
+				test2(r,size);
+				System.out.println();
+				System.out.println("############################################################################");
 
-		Heap h = new Heap(false);
-		Random rand = new Random(99);
-		for(int x=0;x<30;x++){
-			h.add(rand.nextInt(100));
+			}
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.out.println("lol you derped");
+			e.printStackTrace();
 		}
-		while(true){
-			System.out.println(h.remove());
-		}
-		System.out.println(h);
 	}
-
-
 }
 

@@ -1,4 +1,4 @@
-
+import java.util.Arrays;
 
 public class RunningMedian{
 	public Heap minHeap,maxHeap;
@@ -8,26 +8,14 @@ public class RunningMedian{
 		maxHeap = new Heap(true);
 	}
 
-	public static void main(String[] args) {
-		RunningMedian rm = new RunningMedian();
-		rm.add(3);
-		rm.add(4);
-		rm.add(5);
-		System.out.println(rm.minHeap);
-		System.out.println();
-		System.out.println(rm.maxHeap);
-
-		System.out.println("Hurr");
-
-		rm.median();
-
-		//System.out.println(rm.median());
-	}
-
 	public void checkSizes(){
 		if(minHeap.size() + maxHeap.size() == 0){
 			throw new IllegalStateException();
 		}
+	}
+
+	public int size(){
+		return maxHeap.size()+minHeap.size();
 	}
 
 	public void add(int value){
@@ -36,12 +24,15 @@ public class RunningMedian{
 		}else{
 			maxHeap.add(value);
 		}
+		//First, distribute the number to either the right or left side.
+
 		if(minHeap.size()-maxHeap.size() >= 2){
 			maxHeap.add(minHeap.remove());
 		}
-		if(maxHeap.size()-minHeap.size() <=2){
+		else if(maxHeap.size()-minHeap.size() >=2){
 			minHeap.add(maxHeap.remove());
 		}
+		System.out.println();
 	}
 
 	public double remove(){
@@ -60,10 +51,31 @@ public class RunningMedian{
 		if(minHeap.size() == maxHeap.size()){
 			return ((double)minHeap.getRoot() + (double)maxHeap.getRoot())/2;
 		}else if(minHeap.size()>maxHeap.size()){
-			System.out.println(minHeap.getRoot());
 			return (double)minHeap.getRoot();
 		}else{
 			return (double)maxHeap.getRoot();
 		}
+	}
+
+	public String toString(){
+		String total = "";
+		int counter = 0;
+		int[]combine = new int[maxHeap.size()+minHeap.size()];
+		for(int x : maxHeap.getArray()){
+			combine[counter++]=x;
+		}
+		for(int x : minHeap.getArray()){
+			combine[counter++]=x;
+		}
+		if(combine.length==0){
+			return "[]";
+		}
+
+		Arrays.sort(combine);
+		for(int x : combine){
+			total+= "," + x;
+		}
+
+		return "["+total.substring(1)+"]";
 	}
 }
