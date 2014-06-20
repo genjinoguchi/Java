@@ -3,12 +3,12 @@ public class PrimeFinder{
 	public static void main(String[] args) {
 		try{
 			int n = Integer.parseInt(args[0]);
-			double timeStart = System.currentTimeMillis();
-			findNthPrime(n);
-			System.out.println("Time: " + (System.currentTimeMillis()-timeStart));
+			double timeStart = System.nanoTime()/1000000000.0;
+			int result = findNthPrime(n);
+			System.out.println("Time: " + ((System.nanoTime()/1000000000.0)-timeStart) + " seconds");
 
 
-			System.out.println(findNthPrime(n));
+			System.out.println(result);
 		} catch (ArrayIndexOutOfBoundsException e){
 			e.printStackTrace();
 		}
@@ -21,7 +21,7 @@ public class PrimeFinder{
 		while(primes[n-1]==0){
 			if(checkPrime(num,primes)){
 				primes[pos++] = num;
-				System.out.println(num);
+				//System.out.println(num);
 			}
 			num++;
 		}
@@ -33,6 +33,9 @@ public class PrimeFinder{
 	public static boolean checkPrime(int n,int[]primes){
 		for(int p : primes){
 			if(p==0){
+				break;
+			}
+			if(p>(int)Math.sqrt(n)){
 				break;
 			}
 			if((p * (n/p))==n){
