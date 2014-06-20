@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 public class ActionManager{
 	private ActionSequence actionSequence;
 
@@ -11,35 +9,27 @@ public class ActionManager{
 	public void addUndoableAction(){}
 
 	private class ActionSequence{ //Modified Stack
-		Node<UndoableAction>
+		
 
+		private class UndoableAction{
+			private String symbol;
+			private boolean delete;
+			private UndoableAction next, previous;
 
-
-
-
-
-
-
-
-		// Combination of stack and linked list
-		private class Node<E>{
-			private Node<E> forward,backward;
-			private E data;
-
-			public Node(E data){
-				this.data = data;
+			public UndoableAction(boolean delete, String symbol){
+				this.symbol = symbol;
+				this.delete = delete;
 			}
-			public Node<E> getFront(){
-				return forward;
-			}
-			public Node<E> getBack(){
-				return backward;
-			}
-			public E getData(){
-				return data;
+			public boolean isDeleting(){
+				return delete;
 			}
 
+			public void setNext(UndoableAction ua){ next = ua; }
+			public void setPrevious(UndoableAction ua){ previous = ua;}
+			public UndoableAction getNext(){ return next;}
+			public UndoableAction getPrevious(){ return previous;}
 		}
+
 	}
 
 
