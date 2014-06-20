@@ -1,3 +1,4 @@
+import java.util.Stack;
 
 public class ActionManager{
 	private ActionSequence actionSequence;
@@ -9,8 +10,15 @@ public class ActionManager{
 
 	public void addUndoableAction(){}
 
-	private class ActionSequence{
-		private Node<UndoableAction>
+	private class ActionSequence{ //Modified Stack
+		Node<UndoableAction>
+
+
+
+
+
+
+
 
 
 		// Combination of stack and linked list

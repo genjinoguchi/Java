@@ -1,12 +1,5 @@
 import java.util.*;
 
-/*
-Arrays vs LL
-1) Push a tun and pop a ton.
-2) Random(seed) sequence of pushes and pops.
-3) Push 1000000 random values. Do a bunch of searches.
-*/
-
 public class MyStack<E>{
 	Node<E>[] stack = (Node<E>[]) new Node[5];
 	int size = 0;
