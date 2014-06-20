@@ -1,36 +1,34 @@
+import java.util.Stack;
+
 public class ActionManager{
-	private ActionSequence actionSequence;
+	private Stack<UndoableAction> actionSequence;
+	private Stack<UndoableAction> redoSequence;
 
 	public ActionManager(){
-		actionSequence = new ActionSequence();
-
+		sequenceStack = new Stack<UndoableAction>();
+		redoSequence = new Stack<UndoableAction>();
 	}
 
-	public void addUndoableAction(){}
+	public void addUndoableAction(int location, boolean delete, String data){
+		actionSequence.push(new UndoableAction(location,delete,data));
+	}
 
-	private class ActionSequence{ //Modified Stack
-		
 
-		private class UndoableAction{
-			private String symbol;
-			private boolean delete;
-			private UndoableAction next, previous;
 
-			public UndoableAction(boolean delete, String symbol){
-				this.symbol = symbol;
-				this.delete = delete;
-			}
-			public boolean isDeleting(){
-				return delete;
-			}
 
-			public void setNext(UndoableAction ua){ next = ua; }
-			public void setPrevious(UndoableAction ua){ previous = ua;}
-			public UndoableAction getNext(){ return next;}
-			public UndoableAction getPrevious(){ return previous;}
+	private class UndoableAction{
+		private String data;
+		private boolean delete;
+
+		public UndoableAction(int location,boolean delete, String data){
+			this.data = data;
+			this.delete = delete;
 		}
-
+		public boolean isDeleting(){
+			return delete;
+		}
+		public String data(){
+			return data;
+		}
 	}
-
-
 }
