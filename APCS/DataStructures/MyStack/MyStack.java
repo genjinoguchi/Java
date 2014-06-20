@@ -44,7 +44,6 @@ public class MyStack<E>{
 		return size==0;
 	}
 	public int search(Object o){
-		System.out.println("########################################################");
 		int x=1;
 		for(int i=0;i<size;i++){
 			if(stack[i].data.equals(o)){
