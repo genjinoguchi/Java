@@ -1,10 +1,20 @@
 public class UndoableAction{
-	private boolean add;
-	
-	private String symbol;
+	private int index;
+	private String data;
+	private boolean delete; //T is delete, F is not.
 
-	public UndoableAction(boolean add, String symbol){
-		this.add = add;
-		this.symbol = symbol;
+	public UndoableAction(int index,boolean delete, String data){
+		this.index = index;
+		this.data = data;
+		this.delete = delete;
+	}
+	public boolean deleting(){
+		return delete;
+	}
+	public String data(){
+		return data;
+	}
+	public int index(){
+		return index;
 	}
 }
