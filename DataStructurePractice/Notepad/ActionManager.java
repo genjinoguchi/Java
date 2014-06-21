@@ -4,6 +4,7 @@ import java.util.EmptyStackException;
 public class ActionManager{
 	private static Stack<UndoableAction> actionSequence = new Stack<UndoableAction>();
 	private static Stack<UndoableAction> redoSequence = new Stack<UndoableAction>();
+	private static boolean ctrlPressed;
 
 /*
 	public static void main(String[] args) {
@@ -31,8 +32,20 @@ public class ActionManager{
 
 	}
 
-	public void addUndoableAction(int location, boolean delete, String data){
-		actionSequence.push(new UndoableAction(location,delete,data));
+	public static void processInput(String s,int index){
+		if(ctrlPressed){
+			if(s.equals("z")){
+				undo();
+			}
+			if(s.equals("y")){
+				redo();
+			}
+		}else{
+			insertUndoableAction(index,false,s);
+			Notepad.w.displaceCursor(1);
+		}
+		System.out.println(ctrlPressed);
+		//System.out.println(processActions());
 	}
 
 	public static String processActions(){
@@ -57,10 +70,18 @@ public class ActionManager{
 	}
 
 	public static String delete(String s,int index){
-		return s.substring(0,index) + s.substring(index+1);
+		try{
+			return s.substring(0,index) + s.substring(index+1);
+		} catch (Exception e){
+			return s;
+		}
 	}
 	public static String insert(String s, String i,int index){
-		return s.substring(0,index) + i + s.substring(index);
+		try{
+			return s.substring(0,index) + i + s.substring(index);
+		} catch (Exception e){
+			return s;
+		}
 	}
 
 	public static void insertUndoableAction(int index,boolean delete,String symbol){
@@ -89,5 +110,12 @@ public class ActionManager{
 				redoSequence.pop();
 			}
 		}catch(EmptyStackException e){}
+	}
+
+	public static void toggleCtrl(boolean b){
+		ctrlPressed = b;
+	}
+	public static boolean isCtrlPressed(){
+		return ctrlPressed;
 	}
 }
