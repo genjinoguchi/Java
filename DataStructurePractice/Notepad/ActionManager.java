@@ -31,6 +31,10 @@ public class ActionManager{
 
 	}
 
+	public void addUndoableAction(int location, boolean delete, String data){
+		actionSequence.push(new UndoableAction(location,delete,data));
+	}
+
 	public static String processActions(){
 		Stack<UndoableAction> temp = new Stack<UndoableAction>();
 		String toReturn = new String();
@@ -86,5 +90,4 @@ public class ActionManager{
 			}
 		}catch(EmptyStackException e){}
 	}
-
 }
