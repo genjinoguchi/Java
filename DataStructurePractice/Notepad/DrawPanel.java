@@ -9,7 +9,7 @@ public class DrawPanel extends JPanel{
 
 	@Override
 	public void paintComponent(Graphics g){
-
+		
 	}
 
 	

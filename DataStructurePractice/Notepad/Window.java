@@ -9,7 +9,9 @@ public class Window extends JFrame implements KeyListener{
 	private Container background;
 	private DrawPanel panel;
 	private LetteringLabel lettering;
+	private JLabel testLabel;
 	private int cursorLocation;
+	private boolean keyPressed;
 
 	public Window() {
 		init();
@@ -28,6 +30,11 @@ public class Window extends JFrame implements KeyListener{
 
 		panel = new DrawPanel();
 		background.add(panel,BorderLayout.CENTER);
+
+		testLabel = new JLabel("Hello world");
+		panel.add(testLabel);
+
+		cursorLocation = 1;
 	}
 
 	public void displaceCursor(int i){
@@ -41,40 +48,36 @@ public class Window extends JFrame implements KeyListener{
 	}
 
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode()==KeyEvent.VK_CONTROL){
-			ActionManager.toggleCtrl(false);
+		if(e.getKeyCode()==KeyEvent.VK_CONTROL ||
+			e.getKeyCode()==KeyEvent.VK_BACK_SPACE){
+			keyPressed = false;
 		}
 	}
 	public void keyTyped(KeyEvent e){
-		ActionManager.processInput(Character.toString(e.getKeyChar()),cursorLocation);
+		if(!keyPressed){
+			ActionManager.processInput(String.valueOf(e.getKeyChar()),cursorLocation-1);
+			cursorLocation++;
+		}
+		//testLabel.set(ActionManager.processActions());
+		System.out.println(ActionManager.processActions());
 	}
 	public void keyPressed(KeyEvent e){
-		if(e.getKeyCode()==KeyEvent.VK_CONTROL){
-			ActionManager.toggleCtrl(true);
-		}
-		if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE){
-			ActionManager.insertUndoableAction(cursorLocation-1,true,"");
-			displaceCursor(-2);
+
+		if(e.isControlDown()){
+			keyPressed = true;
+			if (e.getKeyCode() == KeyEvent.VK_Z) {
+				ActionManager.undo();
+			}
+			if (e.getKeyCode() == KeyEvent.VK_Y) {
+				ActionManager.redo();
+			}
+		}else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+			keyPressed = true;
+			ActionManager.insertUndoableAction(cursorLocation-2,true,"");
+			if(cursorLocation>1){
+				cursorLocation--;
+			}
 		}
 	}
-
-	/*
-	Suggestion from Stackoverflow
-	public void keyPressed(java.awt.event.KeyEvent evt) {
-            if (evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_C) {
-
-                JOptionPane.showMessageDialog(this, "ctrl + c");
-
-            } else if (evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_X) {
-
-                JOptionPane.showMessageDialog(this, "ctrl + x");
-
-            } else if (evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_V) {
-
-                JOptionPane.showMessageDialog(this, "ctrl + v");
-
-            }
-        }
-        */
 
 }

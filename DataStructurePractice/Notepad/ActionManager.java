@@ -33,19 +33,7 @@ public class ActionManager{
 	}
 
 	public static void processInput(String s,int index){
-		if(ctrlPressed){
-			if(s.equals("z")){
-				undo();
-			}
-			if(s.equals("y")){
-				redo();
-			}
-		}else{
-			insertUndoableAction(index,false,s);
-			Notepad.w.displaceCursor(1);
-		}
-		System.out.println(ctrlPressed);
-		//System.out.println(processActions());
+		insertUndoableAction(index,false,s);
 	}
 
 	public static String processActions(){
@@ -93,14 +81,14 @@ public class ActionManager{
 		try{
 			redoSequence.push(actionSequence.pop());
 		}catch(EmptyStackException e){
-
+			
 		}
 	}
 	public static void redo(){
 		try{
 			actionSequence.push(redoSequence.pop());
 		} catch (EmptyStackException e){
-
+			emptyRedoSequence();
 		}
 	}
 
